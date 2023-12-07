@@ -1,10 +1,13 @@
 package top.shellwe.toolbox.controller;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import top.shellwe.toolbox.Service.LoginService;
+import top.shellwe.toolbox.service.LoginService;
 
 /**
  * @Auther: Benjamin Thomas Shellwe
@@ -29,11 +32,19 @@ public class DefaultInfo {
      * 如果没有，
      * */
 
-    @PostMapping
-    public boolean register() {
-        LoginService ls = new LoginService();
-        ls.login("1","1");
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
 
-        return false;
+        String username = userDTO.getUsername();
+        String password = userDTO.getPassword();
+
+        LoginService ls = new LoginService();
+        userDTO.setLogged(ls.login(username,password));
+
+        if (ls.login(username,password)){
+            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(userDTO, HttpStatus.UNAUTHORIZED);
     }
 }

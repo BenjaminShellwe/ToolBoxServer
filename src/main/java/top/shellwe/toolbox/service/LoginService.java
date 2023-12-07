@@ -1,6 +1,6 @@
-package top.shellwe.toolbox.Service;
+package top.shellwe.toolbox.service;
 
-import top.shellwe.toolbox.Repository.UserRepository;
+import top.shellwe.toolbox.repository.UserRepository;
 
 // 简单的登录服务就不添加接口声明方法了
 public class LoginService {

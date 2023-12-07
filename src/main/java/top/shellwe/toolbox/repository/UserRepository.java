@@ -1,4 +1,4 @@
-package top.shellwe.toolbox.Repository;
+package top.shellwe.toolbox.repository;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

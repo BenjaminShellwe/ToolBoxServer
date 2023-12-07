@@ -1,4 +1,4 @@
-package top.shellwe.toolbox.controller;
+package top.shellwe.toolbox.solutionAlgorithm;
 
 import java.util.Arrays;
 
