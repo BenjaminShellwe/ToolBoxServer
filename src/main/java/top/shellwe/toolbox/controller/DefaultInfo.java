@@ -27,11 +27,6 @@ public class DefaultInfo {
                 """;
     }
 
-    /**用布尔值返回登录是否成功
-     * 一个判断，是否在数据库中有该数据
-     * 如果没有，
-     * */
-
     @PostMapping("/login")
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
 
