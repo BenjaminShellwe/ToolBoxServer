@@ -5,21 +5,68 @@ import java.time.LocalDateTime;
 
 //Data Transfer Object 处理json信息
 public class UserDTO {
+    private int id;
     private String username;
     private String password;
-    
+
+    private String fullName;
+    private String gender;
+    private String phone;
+    private String role;
+
     private boolean isLogged;
-    private String ipAddress;
     private LocalDateTime loginTime;
 
     public UserDTO() {
     }
 
-    public UserDTO(String username, String password, String ipAddress, LocalDateTime loginTime) {
-        this.username = username;
-        this.password = password;
-        this.ipAddress = ipAddress;
-        this.loginTime = loginTime;
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public UserDTO(String fullName, String gender, String phone, String role) {
+        this.fullName = fullName;
+        this.gender = gender;
+        this.phone = phone;
+        this.role = role;
+    }
+
+
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getUsername() {
@@ -44,14 +91,6 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getIpAddress() {
-        return ipAddress;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
     }
 
     public LocalDateTime getLoginTime() {

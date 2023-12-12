@@ -29,20 +29,22 @@ public class DefaultInfo {
 
     /**用布尔值返回登录是否成功
      * 一个判断，是否在数据库中有该数据
-     * 如果没有，
+     * 目前返回全部数据，不再添加其他内容，不然之后肯定要改不少地方
      * */
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> register(@RequestBody UserDTO userDTO) {
 
-        String username = userDTO.getUsername();
-        String password = userDTO.getPassword();
-
         LoginService ls = new LoginService();
-        userDTO.setLogged(ls.login(username,password));
 
-        if (ls.login(username,password)){
-            return new ResponseEntity<>(userDTO, HttpStatus.OK);
+        if (ls.login(userDTO.getUsername(),userDTO.getPassword())){
+
+            UserDTO validatedUserInfo = ls.getUserDTOInfo(ls.afterLogin(userDTO.getUsername(), userDTO.getPassword()));
+            validatedUserInfo.setLogged(true);
+            validatedUserInfo.setUsername(userDTO.getUsername());
+            validatedUserInfo.setPassword(userDTO.getPassword());
+            validatedUserInfo.setId(ls.afterLogin(userDTO.getUsername(), userDTO.getPassword()));
+            return new ResponseEntity<>(validatedUserInfo, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(userDTO, HttpStatus.UNAUTHORIZED);
