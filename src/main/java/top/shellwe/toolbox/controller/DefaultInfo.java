@@ -7,7 +7,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import top.shellwe.toolbox.repository.DatabaseConnection;
 import top.shellwe.toolbox.service.LoginService;
+
+import java.util.List;
 
 /**
  * @Auther: Benjamin Thomas Shellwe
@@ -44,9 +47,63 @@ public class DefaultInfo {
             validatedUserInfo.setUsername(userDTO.getUsername());
             validatedUserInfo.setPassword(userDTO.getPassword());
             validatedUserInfo.setId(ls.afterLogin(userDTO.getUsername(), userDTO.getPassword()));
+
             return new ResponseEntity<>(validatedUserInfo, HttpStatus.OK);
         }
 
         return new ResponseEntity<>(userDTO, HttpStatus.UNAUTHORIZED);
+    }
+
+    @PostMapping("/fetch")
+    public ResponseEntity<List<UserDTO>> fetchData() {
+        LoginService ls = new LoginService();
+        return ResponseEntity.ok(ls.getAllUserDTOInfo());
+    }
+
+    @PostMapping("/update")
+    public ResponseEntity<UserDTO> updateUser(@RequestBody UserDTO userDTO) {
+        int userId = userDTO.getId();
+        String fullName = userDTO.getFullname();
+        String gender = userDTO.getGender();
+        String phone = userDTO.getPhone();
+        String role = userDTO.getRole();
+
+        LoginService ls = new LoginService();
+        if(ls.updateUserInfo(userId, fullName, gender, phone, role)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        };
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PostMapping("/insert")
+    public ResponseEntity<UserDTO> insertUser(@RequestBody UserDTO userDTO) {
+        int userId = userDTO.getId();
+        String username = userDTO.getUsername();
+        String password = userDTO.getUsername();
+        String fullname = userDTO.getFullname();
+        String gender = userDTO.getGender();
+        String phone = userDTO.getPhone();
+        String role = userDTO.getRole();
+
+        LoginService ls = new LoginService();
+
+        if(ls.insertUserAndUserInfo(username, password, fullname, gender, phone, role, userId)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        };
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<UserDTO> deleteUser(@RequestBody UserDTO userDTO) {
+        int userId = userDTO.getId();
+        LoginService ls = new LoginService();
+
+        if(ls.deleteUserAndUserInfo(userId)){
+            return ResponseEntity.status(HttpStatus.OK).build();
+        };
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

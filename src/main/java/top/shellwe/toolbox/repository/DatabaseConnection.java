@@ -7,9 +7,9 @@ public class DatabaseConnection {
     private static DatabaseConnection instance = null;
     private Connection connection;
 
-    private static final String DB_URL = "jdbc:mysql://your_server:3306/your_table";
-    private static final String USER = "your_username";
-    private static final String PASSWORD = "your_passwoed";
+    private static final String DB_URL = "jdbc:mysql://shellwe.top:3306/benjamin";
+    private static final String USER = "shellwe";
+    private static final String PASSWORD = "SHEllwe_1347";
 
     private DatabaseConnection() {
         try {

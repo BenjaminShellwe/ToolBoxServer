@@ -9,7 +9,7 @@ public class UserDTO {
     private String username;
     private String password;
 
-    private String fullName;
+    private String fullname;
     private String gender;
     private String phone;
     private String role;
@@ -28,21 +28,19 @@ public class UserDTO {
         this.id = id;
     }
 
-    public UserDTO(String fullName, String gender, String phone, String role) {
-        this.fullName = fullName;
+    public UserDTO(String fullname, String gender, String phone, String role) {
+        this.fullname = fullname;
         this.gender = gender;
         this.phone = phone;
         this.role = role;
     }
 
-
-
-    public String getFullName() {
-        return fullName;
+    public String getFullname() {
+        return fullname;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 
     public String getGender() {
