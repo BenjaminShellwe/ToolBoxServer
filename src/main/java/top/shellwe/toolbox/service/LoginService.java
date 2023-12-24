@@ -1,7 +1,7 @@
 package top.shellwe.toolbox.service;
 
-import top.shellwe.toolbox.controller.UserDTO;
-import top.shellwe.toolbox.repository.UserRepository;
+import top.shellwe.toolbox.controller.old.UserDTO;
+import top.shellwe.toolbox.repository.old.UserRepository;
 
 import java.util.List;
 

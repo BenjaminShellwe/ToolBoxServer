@@ -1,6 +1,7 @@
-package top.shellwe.toolbox.repository;
+package top.shellwe.toolbox.repository.old;
 
-import top.shellwe.toolbox.controller.UserDTO;
+import top.shellwe.toolbox.controller.old.UserDTO;
+import top.shellwe.toolbox.repository.DatabaseConnection;
 
 import java.sql.*;
 import java.util.ArrayList;
