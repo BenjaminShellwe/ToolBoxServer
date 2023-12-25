@@ -103,9 +103,73 @@ public class AMCMUserRepository {
         return "Success!";
     }
 
-//    public static void main(String[] args) {
-//        AMCMUserRepository a = new AMCMUserRepository();
-//
-//        System.out.println(a.createUser("employer103","NameEmployer103","Aa123456@","2","remark"));
-//    }
+//    更新用户信息
+    public String updateUser(int userId, String userName, String loginId, String password, String department, String remark) {
+        if(!OtherTools.checkString(password)){
+            return "The error is that the password doesn't match the rules.";
+        }
+        Connection connection = databaseConnection.getConnection();
+        if (connection != null) {
+            String sql = "UPDATE user_info SET USER_NAME = ?, USER_LOGIN_ID = ?, USER_PASS = ?, DEPART_NAME = ?, REMARK = ? WHERE USER_ID = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, userName);
+                statement.setString(2, loginId);
+                statement.setString(3, password);
+                statement.setString(4, department);
+                statement.setString(5, remark);
+                statement.setInt(6, userId);
+
+                statement.executeUpdate();
+            } catch (SQLException e) {
+//                e.printStackTrace();
+                return "The error is " + e.getMessage().split("for")[0];
+            }
+        }
+        return "Success!";
+    }
+
+//    修改状态
+    public String updateUserState(int userId, int userState) {
+        Connection connection = databaseConnection.getConnection();
+        if (connection != null) {
+            String sql = "UPDATE user_info SET USER_STATE = ? WHERE USER_ID = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setInt(1, userState);
+                statement.setInt(2, userId);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+//                e.printStackTrace();
+                return "The error is " + e.getMessage().split("for")[0];
+            }
+        }
+        return "Success!";
+    }
+//  获取角色表内容
+public List<UserDTO> getAllRoles() {
+    List<UserDTO> roles = new ArrayList<>();
+    Connection connection = databaseConnection.getConnection();
+    if (connection != null) {
+        String sql = "SELECT * FROM role_info";
+        try (PreparedStatement statement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                String roleId = resultSet.getString("ROLE_ID");
+                String roleType = resultSet.getString("ROLE_TYPE");
+                String roleName = resultSet.getString("ROLE_NAME");
+
+                UserDTO roleInfo = new UserDTO(roleId, roleType, roleName);
+                roles.add(roleInfo);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    return roles;
+}
+
+    public static void main(String[] args) {
+        AMCMUserRepository a = new AMCMUserRepository();
+        String str = a.updateUserState(225005, 2);
+        System.out.println(str);
+    }
 }

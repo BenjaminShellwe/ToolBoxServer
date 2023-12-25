@@ -26,6 +26,12 @@ public class UserDTO {
     public UserDTO() {
     }
 
+    public UserDTO(String ROLE_ID, String ROLE_TYPE, String ROLE_NAME) {
+        this.ROLE_ID = ROLE_ID;
+        this.ROLE_TYPE = ROLE_TYPE;
+        this.ROLE_NAME = ROLE_NAME;
+    }
+
     public String getUSER_ID() {
         return USER_ID;
     }

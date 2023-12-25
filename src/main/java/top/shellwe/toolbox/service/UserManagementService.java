@@ -20,4 +20,16 @@ public class UserManagementService {
     public String createUser(String userLoginID, String userName, String userPass, String departName, String remark) {
         return amcmUserRepository.createUser(userLoginID, userName, userPass, departName, remark);
     }
+
+    public String updateUser(int userId, String userName, String loginId, String password, String department, String remark){
+        return amcmUserRepository.updateUser(userId, userName, loginId, password, department, remark);
+    }
+
+    public String updateState(int userId, int userState) {
+        return amcmUserRepository.updateUserState(userId, userState);
+    }
+
+    public List<UserDTO> getAllRole() {
+        return amcmUserRepository.getAllRoles();
+    }
 }
