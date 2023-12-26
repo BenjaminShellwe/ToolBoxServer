@@ -75,4 +75,70 @@ public class HttpRequestSet {
         UserManagementService u = new UserManagementService();
         return ResponseEntity.ok(u.getAllRole());
     }
+
+    @PostMapping("/deleteOneRole")
+    public String deleteRoleOfOne(@RequestBody UserDTO userDTO) {
+        if(
+                Objects.equals(userDTO.getROLE_ID(), "")
+        ){
+            return "The error is that necessary entries are null.";
+        }
+        UserManagementService u = new UserManagementService();
+        return u.deleteOneRole(userDTO.getROLE_ID());
+    }
+
+    @PostMapping("/insertRole")
+    public String addNewRole(@RequestBody UserDTO userDTO){
+        if(
+                Objects.equals(userDTO.getROLE_ID(), "")||
+                Objects.equals(userDTO.getROLE_NAME(), "")
+        ){
+            return "The error is that necessary entries are null.";
+        }
+        UserManagementService u = new UserManagementService();
+        return u.addNewRole(userDTO.getROLE_ID(), userDTO.getROLE_NAME());
+    }
+
+    @PostMapping("/updateRole")
+    public String alterRole(@RequestBody UserDTO userDTO){
+        if(
+                Objects.equals(userDTO.getROLE_ID(), "")||
+                        Objects.equals(userDTO.getROLE_NAME(), "")
+        ){
+            return "The error is that necessary entries are null.";
+        }
+        UserManagementService u = new UserManagementService();
+        return u.alterRole(userDTO.getROLE_ID(), userDTO.getROLE_NAME());
+    }
+
+    @PostMapping("/loginAction")
+    public ResponseEntity<UserDTO> signinAction(@RequestBody UserDTO userDTO){
+        if(
+                Objects.equals(userDTO.getUSER_LOGIN_ID(), "")||
+                        Objects.equals(userDTO.getUSER_PASS(), "")
+        ){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(userDTO);
+        }
+        UserManagementService u = new UserManagementService();
+        UserDTO uDTO2;
+        uDTO2 = u.findAndUpdateUser(userDTO.getUSER_LOGIN_ID(),userDTO.getUSER_PASS());
+        if(uDTO2 == null || Objects.equals(uDTO2.getUSER_ID(), "") || uDTO2.getUSER_ID() == null){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(uDTO2);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(uDTO2);
+    }
+
+    @PostMapping("/updateOnlineState")
+    public String alterOnlineState(@RequestBody UserDTO userDTO){
+        if(
+                Objects.equals(userDTO.getUSER_ID(), "")||
+                        Objects.equals(userDTO.getONLINE_STATE(), "")
+        ){
+            return "The error is that necessary entries are null.";
+        }
+        UserManagementService u = new UserManagementService();
+        u.updateOnlineState(Integer.parseInt(userDTO.getUSER_ID()), Integer.parseInt(userDTO.getONLINE_STATE()));
+        return "Success!";
+    }
 }
+

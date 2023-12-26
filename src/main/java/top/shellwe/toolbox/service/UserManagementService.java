@@ -32,4 +32,24 @@ public class UserManagementService {
     public List<UserDTO> getAllRole() {
         return amcmUserRepository.getAllRoles();
     }
+
+    public String deleteOneRole(String userId){
+        return amcmUserRepository.deleteRoleById(userId);
+    }
+
+    public String addNewRole(String roleId, String roleName){
+        return amcmUserRepository.insertRole(roleId, roleName);
+    }
+
+    public String alterRole(String roleId, String newRoleName){
+        return amcmUserRepository.updateRoleNameById(roleId, newRoleName);
+    }
+
+    public UserDTO findAndUpdateUser(String loginId, String password){
+        return amcmUserRepository.findAndUpdateUser(loginId, password);
+    }
+
+    public void updateOnlineState(int userId, int onlineState){
+        amcmUserRepository.updateOnlineState(userId, onlineState);
+    }
 }

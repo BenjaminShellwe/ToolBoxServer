@@ -145,7 +145,7 @@ public class AMCMUserRepository {
         return "Success!";
     }
 //  获取角色表内容
-public List<UserDTO> getAllRoles() {
+    public List<UserDTO> getAllRoles() {
     List<UserDTO> roles = new ArrayList<>();
     Connection connection = databaseConnection.getConnection();
     if (connection != null) {
@@ -166,10 +166,106 @@ public List<UserDTO> getAllRoles() {
     }
     return roles;
 }
+//  删除一个角色
+    public String deleteRoleById(String roleId) {
+        Connection connection = databaseConnection.getConnection();
+        if (connection != null) {
+            String sql = "DELETE FROM role_info WHERE ROLE_ID = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, roleId);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+//                e.printStackTrace();
+                return "The error is " + e.getMessage().split("for")[0];
+            }
+        }
+        return "Success!";
+    }
+//  新增角色数据
+    public String insertRole(String roleId, String roleName) {
+        Connection connection = databaseConnection.getConnection();
+        if (connection != null) {
+            String sql = "INSERT INTO role_info (ROLE_ID, ROLE_NAME) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, roleId);
+                statement.setString(2, roleName);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+//                e.printStackTrace();
+                return "The error is " + e.getMessage().split("for")[0];
+            }
+        }
+        return "Success!";
+    }
+//  修改权限
+    public String updateRoleNameById(String roleId, String newRoleName) {
+        Connection connection = databaseConnection.getConnection();
+        if (connection != null) {
+            String sql = "UPDATE role_info SET ROLE_NAME = ? WHERE ROLE_ID = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, newRoleName);
+                statement.setString(2, roleId);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+//                e.printStackTrace();
+                return "The error is " + e.getMessage().split("for")[0];
+            }
+        }
+        return "Success!";
+    }
+
+//    校验登录
+    public UserDTO findAndUpdateUser(String loginId, String password) {
+        Connection connection = databaseConnection.getConnection();
+        UserDTO userDTO = null;
+
+        if (connection != null) {
+            String sql = "SELECT * FROM user_info WHERE USER_LOGIN_ID = ? AND USER_PASS = ?";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, loginId);
+                statement.setString(2, password);
+
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    // Record found, update ONLINE_STATE to 1
+                    int userId = resultSet.getInt("USER_ID");
+                    updateOnlineState(userId, 1);
+
+                    // Retrieve and create UserDTO object
+                    userDTO = new UserDTO();
+                    userDTO.setUSER_ID(String.valueOf(userId));
+                    userDTO.setUSER_LOGIN_ID(resultSet.getString("USER_LOGIN_ID"));
+                    userDTO.setUSER_NAME(resultSet.getString("USER_NAME"));
+                    userDTO.setUSER_TYPE(resultSet.getString("USER_TYPE"));
+
+                    // Set other fields as needed
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return userDTO;
+    }
+
+    public void updateOnlineState(int userId, int onlineState) {
+        Connection connection = databaseConnection.getConnection();
+        if (connection != null) {
+            String updateSql = "UPDATE user_info SET ONLINE_STATE = ? WHERE USER_ID = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+                updateStatement.setInt(1, onlineState);
+                updateStatement.setInt(2, userId);
+                updateStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         AMCMUserRepository a = new AMCMUserRepository();
-        String str = a.updateUserState(225005, 2);
-        System.out.println(str);
+//        String str =
+                a.findAndUpdateUser("manager","123456");
+        System.out.println(a.findAndUpdateUser("manager","123456"));
     }
 }
