@@ -1,2 +1,7 @@
 server:
   port: 8086
+spring:
+  datasource:
+    url: jdbc:mysql://shellwe.top:3306/projectb
+    username: shellwe
+    password: SHEllwe_1347

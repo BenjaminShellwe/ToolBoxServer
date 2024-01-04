@@ -1,20 +1,29 @@
 package top.shellwe.toolbox.repository;
 
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import top.shellwe.toolbox.repository.tools.DatabaseProperties;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+@Component
 public class DatabaseConnection {
-    private static DatabaseConnection instance = null;
     private Connection connection;
+    private static DatabaseConnection instance = null;
 
-    private static final String DB_URL = "jdbc:mysql://shellwe.top:3306/projectb";
-    private static final String USER = "shellwe";
-    private static final String PASSWORD = "SHEllwe_1347";
+    @Autowired
+    private DatabaseProperties databaseProperties;
 
-    private DatabaseConnection() {
+    @PostConstruct
+    private void initializeConnection() {
         try {
-            // 创建数据库连接
-            connection = DriverManager.getConnection(DB_URL, USER, PASSWORD);
+            String url = databaseProperties.getUrl();
+            String username = databaseProperties.getUsername();
+            String password = databaseProperties.getPassword();
+
+            connection = DriverManager.getConnection(url, username, password);
         } catch (SQLException e) {
             e.printStackTrace();
         }
